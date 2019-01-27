@@ -1,16 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ title }}Title</title>
-</head>
-<body>
-    <h1>Template is working</h1>
-        {{ post.title }}<br/>
-        {{ post.content }}<br/>
-        {{ post.timestamp }}<br/>
-        {{ post.updated }}<br/>
-        {{ post.id }}<br/>
+{% extends 'base.html' %}
+{% block title %}
+    {{ post.title }}|{{ block.super }}
+{% endblock title %}
 
-</body>
-</html>
+{% block content %}
+    <div class="col-sm-6 col-sm-offset-3">
+        <img src="{{ post.image.url }}" class="img-responsive">
+        <h1>{{ post.title }} <small class="small">posted on</small> <small>{{ post.timestamp }}<br/></small></h1>
+        {{ post.content|linebreaks }}
+
+    </div>
+{% endblock content %}

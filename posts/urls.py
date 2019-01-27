@@ -4,10 +4,9 @@ from .views import (post_create,
                     post_list, post_update)
 
 urlpatterns = [
-    path('', post_list),
-    path('create', post_create),
-    path('post/<int:id>', post_detail, name='post-detail'),
-    path('update', post_update),
-    path('delete', post_delete),
-
+    path('', post_list, name='post-list'),
+    path('create/', post_create),
+    path('post/<int:id>/edit/', post_update, name='post-detail'),
+    path('post/<int:id>/', post_detail, name='post-detail'),
+    path('post/<int:id>/delete/', post_delete, name='list-delete'),
 ]
