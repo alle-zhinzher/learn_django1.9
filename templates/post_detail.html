@@ -1,11 +1,14 @@
 {% extends 'base.html' %}
+{% load urlify %}
 {% block title %}
     {{ post.title }}|{{ block.super }}
 {% endblock title %}
 
 {% block content %}
     <div class="col-sm-6 col-sm-offset-3">
-        <img src="{{ post.image.url }}" class="img-responsive">
+        {% if post.image %}
+            <img src="{{ post.image.url }}" class="img-responsive">
+        {% endif %}
         <h1>{{ post.title }} <small class="small">posted on</small> <small>{{ post.timestamp }}<br/></small></h1>
         {{ post.content|linebreaks }}
 

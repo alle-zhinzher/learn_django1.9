@@ -6,7 +6,9 @@
 {% block content %}
     {% for obj in object_list %}
         <div class="card" style="width: 18rem;">
-            <!-- <img src="..." class="card-img-top" alt="..."> -->
+            {% if obj.image %}
+                <img src="{{ obj.image.url }}" class="img-responsive">
+            {% endif %}
             <div class="card-body">
                 <h5 class="card-title"><h1><a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a></h1></h5>
                 <p class="card-text">{{ obj.content|linebreaks|truncatechars:150 }}<br/></p>
@@ -15,8 +17,10 @@
                 <li class="list-group-item">{{ obj.timestamp|timesince }}</li>
             </ul>
             <div class="card-body">
-                <a href="#" class="card-link">Detail</a>
-                <a href="#" class="card-link">Another link</a>
+                {{ request.build_absolute_uri }}
+                <a href="{% url 'post-detail' slug=obj.slug %}" class="card-link">Detail</a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}">Share on Facebook</a>
+                <a href="https://twitter.com/home?status=I'm%20going%20to%20learn%20to%20Code...%20Come%20build%20an%20web%20apsp%20with%20me!%20%23CFE%20and%20@justinmitchel%20{{ request.build_absolute_uri }}/">Share on Twitter</a>
             </div>
         </div>
     {%  endfor %}
