@@ -1,10 +1,18 @@
 from django.db import models
+from django.conf import settings
 from django.shortcuts import reverse
 from django.db.models.signals import pre_save
 from django.utils.text import slugify
 
 
+class PostManager(models.Manager):
+    def active(self, *args, **kwargs):
+
+        return super(PostManager, self).filter(draft=False)
+
+
 class Post(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, on_delete=models.CASCADE)
     title = models.CharField(max_length=120)
     slug = models.SlugField(unique=True)
     content = models.TextField()
@@ -16,6 +24,10 @@ class Post(models.Model):
                               null=True, blank=True,
                               width_field='width_field',
                               height_field='height_field')
+    draft = models.BooleanField(default=False)
+    publish = models.DateTimeField(auto_now=False, auto_now_add=False)
+
+    objects = PostManager()
 
     def get_absolute_url(self):
         return reverse('post-detail', kwargs={'slug': self.slug})

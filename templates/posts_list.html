@@ -4,25 +4,37 @@
 {% endblock title %}
 
 {% block content %}
+    <form method="GET" action="">
+        <input type="text" name="q" placeholder="Search posts" />
+        <input type="submit" value="Search"/>
+    </form>
     {% for obj in object_list %}
-        <div class="card" style="width: 18rem;">
+        <div class="card" style="width: 40rem;">
             {% if obj.image %}
                 <img src="{{ obj.image.url }}" class="img-responsive">
             {% endif %}
             <div class="card-body">
-                <h5 class="card-title"><h1><a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a></h1></h5>
+                <h5 class="card-title"><h1><a href="{{ obj.get_absolute_url }}">
+                    {% if obj.draft %}
+                        <span style="color:red;">{{ obj.title }}
+                    {% else %}
+                        {{ obj.title }}
+                    {% endif %}
+                    </span></a></h1></h5>
+                <h2>Author: {{ obj.user }}</h2>
+                <div class="fb-like" data-href="{{ request.build_absolute_uri }}" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
                 <p class="card-text">{{ obj.content|linebreaks|truncatechars:150 }}<br/></p>
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">{{ obj.timestamp|timesince }}</li>
             </ul>
             <div class="card-body">
-                {{ request.build_absolute_uri }}
                 <a href="{% url 'post-detail' slug=obj.slug %}" class="card-link">Detail</a>
                 <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}">Share on Facebook</a>
                 <a href="https://twitter.com/home?status=I'm%20going%20to%20learn%20to%20Code...%20Come%20build%20an%20web%20apsp%20with%20me!%20%23CFE%20and%20@justinmitchel%20{{ request.build_absolute_uri }}/">Share on Twitter</a>
             </div>
         </div>
+        <div style="height: 5px"></div>
     {%  endfor %}
     <div class="pagination">
     <span class="step-links">

@@ -2,13 +2,18 @@ from urllib.parse import quote_plus
 from django.shortcuts import get_object_or_404, HttpResponseRedirect, redirect, render
 from django.contrib import messages
 from django.core.paginator import Paginator
+from django.db.models import Q
 
 from post.forms import PostForm
 from post.models import Post
 
 
 def post_list(request):
-    queryset = Post.objects.all().order_by('-timestamp')
+    queryset = Post.objects.active().order_by('-timestamp')
+    query = request.GET.get('q')
+    if query:
+        queryset = queryset.filter(
+            Q(title__icontains=query) | Q(content__icontains=query)).distinct()
     paginator = Paginator(queryset, 3)  # Show 25 contacts per page
     page = request.GET.get('page')
     post = paginator.get_page(page)
@@ -23,6 +28,7 @@ def post_create(request):
     form = PostForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         instance = form.save(commit=False)
+        instance.user = request.user
         instance.save()
         messages.success(request, "Successfully created")
         return HttpResponseRedirect(instance.get_absolute_url())
@@ -38,8 +44,8 @@ def post_detail(request, slug=None):
                                                         'share_string': share_string,})
 
 
-def post_update(request, id=None):
-    instance = get_object_or_404(Post, id=id)
+def post_update(request, slug=None):
+    instance = get_object_or_404(Post, slug=slug)
     form = PostForm(request.POST or None, request.FILES or None, instance=instance)
     if form.is_valid():
         instance = form.save(commit=False)
