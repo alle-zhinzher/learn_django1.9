@@ -9,14 +9,21 @@
             <img src="{{ post.image.url }}" class="img-responsive">
         {% endif %}
         <h1>{{ post.title }} </h1>
-        <h4><small class="small">posted on</small> <small>{{ post.timestamp }}</small></h4>
+        <h4>
+            <small class="small">posted on</small>
+            <small>{{ post.timestamp }}</small>
+        </h4>
         <hr>
         <hr>
-        <p>{{ post.content|linebreaks }}</p>
+
+        <p class='content-markdown'>{{ post.content }}</p>
+
         <hr>
         <h3>Author: {{ post.user }}</h3>
         <hr>
-        <div class="fb-like" data-href="{{ request.build_absolute_uri }}" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+
+        <div class="fb-like" data-href="{{ request.build_absolute_uri }}" data-layout="standard" data-action="like"
+             data-size="small" data-show-faces="true" data-share="true"></div>
         <hr>
         <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-numposts="5"></div>
     </div>
