@@ -4,6 +4,8 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.db.models import Q
 
+
+from comments.models import Comment
 from post.forms import PostForm
 from post.models import Post
 
@@ -40,8 +42,12 @@ def post_create(request):
 def post_detail(request, slug=None):
     instance = get_object_or_404(Post, slug=slug)
     share_string = quote_plus(instance.content)
+
+    comments = instance.comments
     return render(request, 'post_detail.html', context={'post': instance,
-                                                        'share_string': share_string,})
+                                                        'share_string': share_string,
+                                                        'comments': comments,
+                                                        })
 
 
 def post_update(request, slug=None):
@@ -55,7 +61,7 @@ def post_update(request, slug=None):
     else:
         messages.error(request, 'Post not updated')
     return render(request, 'post_form.html', context={'post': instance,
-                                                        'form': form})
+                                                      'form': form})
 
 
 def post_delete(request, slug=None):

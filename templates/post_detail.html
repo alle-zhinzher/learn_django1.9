@@ -23,9 +23,25 @@
         <h3>Author: {{ post.user }}</h3>
         <hr>
 
+
         <div class="fb-like" data-href="{{ request.build_absolute_uri }}" data-layout="standard" data-action="like"
              data-size="small" data-show-faces="true" data-share="true"></div>
         <hr>
-        <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-numposts="5"></div>
+        <div>
+            <p class="lead">Comments</p>
+            {% for comment in post.comments.all %}
+                <div class="">
+                    <blockquote>
+                        <p><samall>Author: {{ comment.user }} on {{ comment.timestamp|timesince }} ago</samall></p>
+                        <footer>{{ comment.content }}</footer>
+                    </blockquote>
+                    <hr/>
+
+                </div>
+            {% endfor %}
+        </div>
     </div>
+        <!--<div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-numposts="5"></div>
+        </div>
+        -->
 {% endblock content %}

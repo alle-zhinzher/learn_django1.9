@@ -6,10 +6,11 @@ from django.utils.text import slugify
 from django.utils.safestring import mark_safe
 from markdown_deux import markdown
 
+from comments.models import Comment
+
 
 class PostManager(models.Manager):
     def active(self, *args, **kwargs):
-
         return super(PostManager, self).filter(draft=False)
 
 
@@ -38,6 +39,11 @@ class Post(models.Model):
         content = self.content
         markdown_text = markdown(content)
         return mark_safe(markdown_text)
+
+    @property
+    def comments(self):
+        qs = Comment.object.filter_by_instance(self)
+        return qs
 
     def __str__(self):
         return self.title
