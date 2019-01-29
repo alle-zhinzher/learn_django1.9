@@ -4,7 +4,7 @@
 {% endblock title %}
 
 {% block content %}
-    <div class="col-sm-7 col-sm-offset-3">
+    <div class="col-sm-7 col-sm-offset-3 post-detail-item">
         {% if post.image %}
             <img src="{{ post.image.url }}" class="img-responsive">
         {% endif %}
@@ -16,7 +16,7 @@
         <hr>
         <hr>
 
-        <p class='content-markdown'>{{ post.content }}</p>
+        <p class='post-detail-item'>{{ post.get_markdown }}</p>
 
         <hr>
         <h3>Author: {{ post.user }}</h3>

@@ -54,7 +54,7 @@ def post_update(request, slug=None):
         return HttpResponseRedirect(instance.get_absolute_url())
     else:
         messages.error(request, 'Post not updated')
-    return render(request, 'post_update.html', context={'post': instance,
+    return render(request, 'post_form.html', context={'post': instance,
                                                         'form': form})
 
 
