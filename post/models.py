@@ -4,6 +4,7 @@ from django.shortcuts import reverse
 from django.db.models.signals import pre_save
 from django.utils.text import slugify
 from django.utils.safestring import mark_safe
+from django.contrib.contenttypes.models import ContentType
 from markdown_deux import markdown
 
 from comments.models import Comment
@@ -42,8 +43,15 @@ class Post(models.Model):
 
     @property
     def comments(self):
-        qs = Comment.object.filter_by_instance(self)
+        instance = self
+        qs = Comment.objects.filter_by_instance(instance)
         return qs
+
+    @property
+    def get_content_type(self):
+        instance = self
+        content_type = ContentType.objects.get_for_model(instance.__class__)
+        return content_type
 
     def __str__(self):
         return self.title

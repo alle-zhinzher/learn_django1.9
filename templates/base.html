@@ -47,7 +47,16 @@
 
     <script src='https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js'></script>
 
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js'></script>
+
+
+
+<!-- Latest compiled and minified JavaScript -->
+<script   src="http://code.jquery.com/jquery-1.12.2.min.js"   integrity="sha256-lZFHibXzMHo3GGeehn1hudTAP3Sc0uKXBXAzHX1sjtk="   crossorigin="anonymous"></script>
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js'></script>
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -83,9 +92,14 @@ $(document).ready(function(){
         var newContent = $(this).val()
         setTitle(newContent)
     })
+    $(".comment-replay-btn").click(function(event){
+        event.preventDefault();
+        $(this).next(".comment-replay").fadeToggle();
+    })
     // preview-title
     // preview-content
 })
 </script>
+
     </body>
 </html>
