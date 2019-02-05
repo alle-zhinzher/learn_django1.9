@@ -13,6 +13,7 @@
         <h4>
             <small class="small">posted on</small>
             <small>{{ post.timestamp }}</small>
+            <small>Read time:  {{ post.read_time }}</small>
         </h4>
         <hr/>
         <hr/>
@@ -45,13 +46,20 @@
                             {{ comment.children.count }} Comments
                         {% endif %}
                         <a class="btn btn-info" href="{{ comment.get_absolute_url }}">Thread</a>
+                        {% if request.user == comment.user %}
+                            <a href="{{ comment.get_delete_url }}"> | Delete</a>
+                        {% endif %}
                         </p>
 
-                        {% for child_coment in comment.children %}
+                        {% for child_comment in comment.children %}
                             <div style="padding:5px 5px; margin-left: 20px;border: solid 1px gainsboro;border-left:solid 2px rosybrown;">
-                                <p>{{ child_coment.content }}</p>
+                                <p>{{ child_comment.content }}</p>
                                 <div style="border-bottom:dotted 2px gainsboro "></div>
-                                <p>via {{ child_coment.user }} | {{ child_coment.timestamp|timesince }} ago</p>
+                                <p>via {{ child_comment.user }} | {{ child_comment.timestamp|timesince }} ago
+                                {% if request.user == child_comment.user %}
+                                    <a href="{{ child_comment.get_delete_url }}"> | Delete</a>
+                                {% endif %}
+                                </p>
                             </div>
                             <div style="margin-top: 3px"></div>
                         {% endfor %}

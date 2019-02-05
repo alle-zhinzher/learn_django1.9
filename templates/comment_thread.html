@@ -16,21 +16,22 @@
         </p>
     </div>
     <div style="margin: 15px 0;">
-    {% for child_coment in comment.children %}
-        <div style="padding: 10px 10px; margin-left: 50px;border: solid 1px gainsboro;border-left:solid 2px rosybrown;">
-            <p>{{ child_coment.content }}</p>
-            <div style="border-bottom:dotted 2px gainsboro "></div>
-            <p>via {{ child_coment.user }} | {{ child_coment.timestamp|timesince }} ago</p>
-        </div>
-        <div style="margin-top: 3px"></div>
-    {% endfor %}
+        {% for child_coment in comment.children %}
+            <div style="padding: 10px 10px; margin-left: 50px;border: solid 1px gainsboro;border-left:solid 2px rosybrown;">
+                <p>{{ child_coment.content }}</p>
+                <div style="border-bottom:dotted 2px gainsboro "></div>
+                <p>via {{ child_coment.user }} | {{ child_coment.timestamp|timesince }} ago</p>
+            </div>
+            <div style="margin-top: 3px"></div>
+        {% endfor %}
 
-    <form method="POST" action=".">{% csrf_token %}
-        {{ form|crispy }}
-        <input type="hidden" name="parent_id" value="{{ comment.id }}">
-        <input type="submit" value="Replay" class="btn btn-info">
-    </form>
-    <div style="margin: 10px 0;">
-        <hr/>
+        <form method="POST" action=".">{% csrf_token %}
+            {{ form|crispy }}
+            <input type="hidden" name="parent_id" value="{{ comment.id }}">
+            <input type="submit" value="Replay" class="btn btn-info">
+        </form>
+        <div style="margin: 10px 0;">
+            <hr/>
+        </div>
     </div>
 {% endblock content %}

@@ -1,16 +1,39 @@
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from django.contrib.contenttypes.models import ContentType
+from django.http import Http404, HttpResponse
 from django.contrib import messages
 
 from .models import Comment
 from .forms import CommentForm
 
 
+def comment_delete(request, id=None):
+    try:
+        obj = Comment.objects.get(id=id)
+    except:
+        raise Http404
+    if obj.user != request.user:
+        reponse = HttpResponse('You have not premision to do this')
+        reponse.status_code = 403
+        return reponse
+
+    if request.method == 'POST':
+        parent_obj_url = obj.content_object.get_absolute_url()
+        obj.delete()
+        messages.success(request, 'Comment has been deleted')
+        return HttpResponseRedirect(parent_obj_url)
+    return render(request, 'confirm_delete.html', context={
+                                            'object': obj,
+                                        })
+
+
 def comment_thread(request, id=None):
-    obj = get_object_or_404(Comment, id=id)
-    content_object = obj.content_object
-    print(content_object)
-    content_id = obj.content_object.id
+    try:
+        obj = Comment.objects.get(id=id)
+    except:
+        raise Http404
+    if not obj.is_parent:
+        obj = obj.parent
     initial_data = {
         'content_type': obj.content_type,
         'object_id': obj.object_id,
@@ -46,7 +69,3 @@ def comment_thread(request, id=None):
                                                 'comment': obj,
                                                 'form': form,
     })
-
-
-def comment_delete():
-    pass
