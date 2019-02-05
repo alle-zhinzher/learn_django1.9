@@ -10,6 +10,7 @@ from comments.forms import CommentForm
 from comments.models import Comment
 from post.forms import PostForm
 from post.models import Post
+from .utils import get_read_time
 
 
 def post_list(request):
@@ -31,6 +32,7 @@ def post_list(request):
 def post_detail(request, slug=None):
     instance = get_object_or_404(Post, slug=slug)
     share_string = quote_plus(instance.content)
+    print(get_read_time(instance.get_markdown()),"ERGREG")
     initial_data = {
         'content_type': instance.get_content_type,
         'object_id': instance.id

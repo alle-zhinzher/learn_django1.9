@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
+from django.shortcuts import reverse
 
 from django.db import models
 
@@ -16,6 +17,7 @@ class CommentManager(models.Manager):
         qs = super(CommentManager, self).filter(content_type=content_type, object_id= obj_id).filter(parent=None)
         return qs
 
+
 class Comment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, on_delete=models.CASCADE)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
@@ -29,6 +31,7 @@ class Comment(models.Model):
     objects = CommentManager()
 
     class Meta:
+
         ordering = ['-timestamp']
 
     def __str__(self):
@@ -36,6 +39,9 @@ class Comment(models.Model):
 
     def children(self): #replies
         return Comment.objects.filter(parent=self)
+
+    def get_absolute_url(self):
+        return reverse('comment-thread', kwargs={'id': self.id})
 
     @property
     def is_parent(self):

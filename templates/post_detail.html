@@ -44,7 +44,7 @@
                         {% if comment.children.count %}
                             {{ comment.children.count }} Comments
                         {% endif %}
-                        <a class="comment-replay-btn" href="#">      >>>Replay</a>
+                        <a class="btn btn-info" href="{{ comment.get_absolute_url }}">Thread</a>
                         </p>
 
                         {% for child_coment in comment.children %}

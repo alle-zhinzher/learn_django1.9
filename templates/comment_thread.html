@@ -5,70 +5,32 @@
 {% endblock title %}
 
 {% block content %}
-    <div class="col-sm-7 col-sm-offset-3">
-        {% if post.image %}
-            <img src="{{ post.image.url }}" class="img-responsive">
-        {% endif %}
-        <h1>{{ post.title }} </h1>
-        <h4>
-            <small class="small">posted on</small>
-            <small>{{ post.timestamp }}</small>
-        </h4>
-        <hr/>
-        <hr/>
-
-        <div class='post-detail-item'>{{ post.get_markdown }}</div>
-
-        <hr/>
-        <h3>Author: {{ post.user }}</h3>
-        <hr/>
-
-
-        <div class="fb-like" data-href="{{ request.build_absolute_uri }}" data-layout="standard" data-action="like"
-             data-size="small" data-show-faces="true" data-share="true"></div>
-        <hr/>
-        <div>
-            <p class="lead">Comments</p>
-            <form method="POST" action=".">{% csrf_token %}
-                {{ comment_form|crispy }}
-                <input type="submit" value="Post comment" class="btn btn-default">
-            </form>
-            <h4>Comments</h4>
-            <hr/>
-            {% for comment in post.comments.all %}
-
-                <div style="border: solid 1px gainsboro;border-left:solid 2px cornflowerblue;">
-                    <p>{{ comment.content }}</p>
-                    <div style="border-bottom:dotted 1px gainsboro "></div>
-                    <p>via {{ comment.user }} | {{ comment.timestamp|timesince }} ago |
-                        {% if comment.children.count %}
-                            {{ comment.children.count }} Comments
-                        {% endif %}
-                        <a class="comment-replay-btn" href="#">      >>>Replay</a>
-                        </p>
-
-                        {% for child_coment in comment.children %}
-                            <div style="padding:5px 5px; margin-left: 20px;border: solid 1px gainsboro;border-left:solid 2px rosybrown;">
-                                <p>{{ child_coment.content }}</p>
-                                <div style="border-bottom:dotted 2px gainsboro "></div>
-                                <p>via {{ child_coment.user }} | {{ child_coment.timestamp|timesince }} ago</p>
-                            </div>
-                            <div style="margin-top: 3px"></div>
-                        {% endfor %}
-
-                        <form method="POST" action=".">{% csrf_token %}
-                                {{ comment_form|crispy }}
-                                <input type="hidden" name="parent_id" value="{{ comment.id }}">
-                                <input type="submit" value="Replay" class="btn btn-info">
-                        </form>
-
-                </div>
-
-                <div style="margin: 10px 0;"><hr/></div>
-            {% endfor %}
-        </div>
+    <h1>Woorked</h1>
+    <div style="border: solid 1px gainsboro;border-left:solid 2px cornflowerblue;">
+        <p>{{ comment.content }}</p>
+        <div style="border-bottom:dotted 1px gainsboro "></div>
+        <p>via {{ comment.user }} | {{ comment.timestamp|timesince }} ago |
+            {% if comment.children.count %}
+                {{ comment.children.count }} Comments
+            {% endif %}
+        </p>
     </div>
-        <!--<div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-numposts="5"></div>
+    <div style="margin: 15px 0;">
+    {% for child_coment in comment.children %}
+        <div style="padding: 10px 10px; margin-left: 50px;border: solid 1px gainsboro;border-left:solid 2px rosybrown;">
+            <p>{{ child_coment.content }}</p>
+            <div style="border-bottom:dotted 2px gainsboro "></div>
+            <p>via {{ child_coment.user }} | {{ child_coment.timestamp|timesince }} ago</p>
         </div>
-        -->
+        <div style="margin-top: 3px"></div>
+    {% endfor %}
+
+    <form method="POST" action=".">{% csrf_token %}
+        {{ form|crispy }}
+        <input type="hidden" name="parent_id" value="{{ comment.id }}">
+        <input type="submit" value="Replay" class="btn btn-info">
+    </form>
+    <div style="margin: 10px 0;">
+        <hr/>
+    </div>
 {% endblock content %}
