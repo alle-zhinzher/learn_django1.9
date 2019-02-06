@@ -26,6 +26,16 @@
 
         {% include 'masseges_display.html' %}
         <div class="container" style="text-align: center;">
+            <ol class="breadcrumb">
+                <li><a href="{% url 'post-list' %}"> Home</a></li>
+                <li><a href="{% url 'post-list' %}"> Posts</a></li>
+                {% if  not request.user.is_authenticated %}
+                    <li class="pull-right"><a href="{% url 'login' %}"> Login</a></li>
+                    <li class="pull-right"><a href="{% url 'register' %}"> Register</a></li>
+                {% else %}
+                    <li class="pull-right"><a href="{% url 'logout' %}"> Logout</a></li>
+                {% endif %}
+            </ol>
             {% block content %}
 
             {% endblock content %}

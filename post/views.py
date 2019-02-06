@@ -71,6 +71,7 @@ def post_detail(request, slug=None):
                                                         })
 
 
+@login_required(login_url='/login/')
 def post_create(request):
     form = PostForm(request.POST or None, request.FILES or None)
     if form.is_valid():
@@ -86,6 +87,7 @@ def post_create(request):
     return render(request, "post_form.html", context)
 
 
+@login_required(login_url='/login/')
 def post_update(request, slug=None):
     instance = get_object_or_404(Post, slug=slug)
     form = PostForm(request.POST or None, request.FILES or None, instance=instance)
@@ -100,6 +102,7 @@ def post_update(request, slug=None):
                                                       'form': form})
 
 
+@login_required(login_url='/login/')
 def post_delete(request, slug=None):
     instance = get_object_or_404(Post, slug=slug)
     instance.delete()
