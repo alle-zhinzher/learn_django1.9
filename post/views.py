@@ -71,7 +71,6 @@ def post_detail(request, slug=None):
                                                         })
 
 
-@login_required(login_url='/login/')
 def post_create(request):
     form = PostForm(request.POST or None, request.FILES or None)
     if form.is_valid():

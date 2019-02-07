@@ -21,9 +21,12 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'post',
     'comments',
+
+    'rest_framework',
     'pagedown',
     'markdown_deux',
     'crispy_forms',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
