@@ -15,7 +15,9 @@ urlpatterns = [
     path('login/', login_view, name="login"),
     path('logout/', logout_view, name="logout"),
     path('register/', register_view, name="register"),
+    path('api/posts/', include('post.api.urls'), name='post-api'),
     path('', include('post.urls')),
+
 ]
 
 
