@@ -23,5 +23,14 @@ class PostDetailSerializer(ModelSerializer):
             'slug',
             'content',
             'publish',
-            '',
+        ]
+
+
+class PostCreateUpdateSerializer(ModelSerializer):
+    class Meta:
+        model = Post
+        fields = [
+            'title',
+            'content',
+            'publish',
         ]
